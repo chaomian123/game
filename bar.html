@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>播放进度条的demo</title>
+    <style>
+        .gua-bc {
+            position: relative;
+            width: 200px;
+            height: 30px;
+            background: #000;
+        }
+        .gua-fg {
+            position: absolute;
+            background: #ccc;
+            height: 100%;
+            width: 30px;
+            left: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="gua-bc">
+        <div class="gua-fg"></div>
+    </div>
+    <script>
+        const e = sel => document.querySelector(sel)
+        const log = console.log.bind(console)
+        var container = e('.gua-bc')
+        var bar = e('.gua-fg')
+
+        var containerWidth = Number(window.getComputedStyle(container, null).getPropertyValue('width').slice(0, -2))
+        var barWidth = Number(window.getComputedStyle(bar, null).getPropertyValue('width').slice(0, -2))
+        var leftLimitedMax = containerWidth - barWidth
+        var leftLimitedMin = 0
+        var guaMoving = false
+        var initX = 0
+        var initLeft
+        bar.addEventListener('mousedown', event => {
+            event.preventDefault()
+            guaMoving = true
+            initX = event.clientX
+            initLeft = pos(bar)
+        })
+
+        container.addEventListener('mousemove', event => {
+            // 一旦按下, 之后再移动这个事件就会一直被触发
+            if (guaMoving) {
+                log(event.clientX)
+                var offset = event.clientX - initX
+                log('offset', offset)
+              //下面就是设定bar条left值
+              //   if (offset > 0) {
+              //       initLeft = 0
+              //   }
+                setPos(bar, initLeft + offset)
+            }
+        })
+
+        bar.addEventListener('mouseup', event => {
+            event.preventDefault()
+            guaMoving = false
+        })
+        window.addEventListener('mouseup', event => {
+            event.preventDefault()
+            guaMoving = false
+        })
+        const pos = (elem) => {
+            //这是算elem的left值的
+            var left = elem.style.left
+            left = Number(left.slice(0, -2))
+            return left
+        }
+
+        const setPos = (elem, left) => {
+            //这是设置elem的left值的
+            if (left > leftLimitedMax) {
+                left = leftLimitedMax
+            }
+            if (left < leftLimitedMin) {
+                left = leftLimitedMin
+            }
+            elem.style.left = left + 'px'
+
+        }
+    </script>
+</body>
+</html>
