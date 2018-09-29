@@ -17,10 +17,10 @@ bar.addEventListener('mousedown', event => {
 
 bar.addEventListener('mousemove', event => {
     if (guaMoving) {
-        log(event.clientX)
+        // log(event.clientX)
         var offset = event.clientX - initX
-        log(initLeft, 'initLeft')
-        log(offset,'offset')
+        // log(initLeft, 'initLeft')
+        // log(offset,'offset')
         setPos(bar, initLeft + offset)
     }
 })

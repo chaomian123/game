@@ -51,7 +51,7 @@ var Scene = function (game) {
     game.canvas.addEventListener('mousemove', function (event) {
         var x = event.offsetX
         var y = event.offsetY
-        log('move', x, y)
+        // log('move', x, y)
         if (enableDrag) {
             ball.x = x
             ball.y = y

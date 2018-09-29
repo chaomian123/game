@@ -41,7 +41,7 @@ const __main = function() {
         paddle: 'img/paddle.png',
     }
     // var scene = Scene(game)
-    var game = Gua_game(30, images, function (g) {
+    var game = new GuaGame(30, images, function (g) {
         var s = SceneTitle.new(g)
         g.runWithScene(s)
     })
