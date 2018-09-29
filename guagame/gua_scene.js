@@ -2,6 +2,11 @@ class GuaScene {
     constructor(game) {
         this.game = game
     }
+    static  new(game) {
+        var i = new this(game)
+        //这里的this是scenetitle
+        return i
+    }
     draw() {
 
     }
@@ -17,6 +22,11 @@ class SceneTitle extends GuaScene{
             var s = Scene(game)
             game.replaceScene(s)
         })
+    }
+    static  new(game) {
+        var i = new this(game)
+        //这里的this是scenetitle
+        return i
     }
     draw() {
         this.game.context.fillText('按 k 开始游戏: ', 100, 190)

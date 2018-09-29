@@ -42,7 +42,7 @@ const __main = function() {
     }
     // var scene = Scene(game)
     var game = Gua_game(30, images, function (g) {
-        var s = new SceneTitle(game)
+        var s = SceneTitle.new(g)
         g.runWithScene(s)
     })
 
