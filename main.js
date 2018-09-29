@@ -36,13 +36,13 @@ var enableDebugMode = function(game, enable) {
 
 const __main = function() {
     var images = {
-        ball: 'ball.png',
-        block: 'block.png',
-        paddle: 'paddle.png',
+        ball: 'img/ball.png',
+        block: 'img/block.png',
+        paddle: 'img/paddle.png',
     }
     // var scene = Scene(game)
-    var game = GuaGame(30, images, function (g) {
-        var s = Scene(game)
+    var game = Gua_game(30, images, function (g) {
+        var s = new SceneTitle(game)
         g.runWithScene(s)
     })
 

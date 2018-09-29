@@ -1,4 +1,4 @@
-var GuaGame = function(fps, images, runCallback) {
+var Gua_game = function(fps, images, runCallback) {
     // images 是一个对象, 里面是图片的引用名字和图片路径
     // 程序会在所有图片载入成功后才运行
     var g = {
