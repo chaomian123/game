@@ -1,19 +1,39 @@
 class Scene extends GuaScene{
     constructor(game) {
         super(game)
-        this.bg = GuaImage.new(game, 'sky')
+
         // game.registerAction('k', function () {
         //     var s = Scene(game)
         //     game.replaceScene(s)
         // })
+        this.setup()
     }
     // static  new(game) {
     //     var i = new this(game)
     //     //这里的this是scenetitle
     //     return i
     // }
-    draw() {
-         this.game.drawImage(this.bg)
+    setup() {
+        var game = this.game
+        this.bg = GuaImage.new(game, 'sky')
+        this.cloud = GuaImage.new(game, 'cloud')
+
+        this.player = GuaImage.new(game, 'player')
+        this.player.x = 100
+        this.player.y = 150
+        this.elements = []
+        this.addElement(this.bg)
+        this.addElement(this.player)
+        this.addElement(this.cloud)
+
+    }
+
+    // draw() {
+    //      this.game.drawImage(this.bg)
+    //      this.game.drawImage(this.player)
+    // }
+    update() {
+        this.cloud.y += 1
     }
 
 }

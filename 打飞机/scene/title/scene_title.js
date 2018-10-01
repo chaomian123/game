@@ -11,6 +11,7 @@ class SceneTitle extends GuaScene{
         //这里的this是scenetitle
         return i
     }
+
     draw() {
         this.game.context.fillText('按 k 开始游戏: ', 100, 190)
     }
