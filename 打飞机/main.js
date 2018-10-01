@@ -40,6 +40,11 @@ const __main = function() {
         cloud: 'img/cloud.png',
         player: 'img/plane.png',
         sky: 'img/sky.png',
+        enemy0: 'img/enemy.png',
+        enemy1: 'img/enemy.png',
+        enemy2: 'img/enemy.png',
+        enemy3: 'img/enemy.png',
+        enemy4: 'img/enemy.png',
     }
     // var scene = Scene(game)
     var game = GuaGame.instance(30, images, function (g) {

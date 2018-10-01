@@ -1,24 +1,63 @@
+class Player extends GuaImage {
+    constructor(game) {
+        super(game, 'player')
+        this.speed = 10
+    }
+
+    update() {
+
+    }
+    moveLeft() {
+        this.x -= this.speed
+    }
+    moveRight() {
+        this.x += this.speed
+    }
+    moveUp() {
+        this.y -= this.speed
+    }
+    moveDown() {
+        this.y += this.speed
+    }
+
+}
+
+class Enemy extends GuaImage {
+    constructor(game) {
+        super(game, 'player')
+        this.speed = 10
+
+    }
+
+    update() {
+
+    }
+    moveLeft() {
+        this.x -= this.speed
+    }
+    moveRight() {
+        this.x += this.speed
+    }
+    moveUp() {
+        this.y -= this.speed
+    }
+    moveDown() {
+        this.y += this.speed
+    }
+}
 class Scene extends GuaScene{
     constructor(game) {
         super(game)
-
-        // game.registerAction('k', function () {
-        //     var s = Scene(game)
-        //     game.replaceScene(s)
-        // })
         this.setup()
+        this.setupInput()
     }
-    // static  new(game) {
-    //     var i = new this(game)
-    //     //这里的this是scenetitle
-    //     return i
-    // }
+
     setup() {
         var game = this.game
         this.bg = GuaImage.new(game, 'sky')
         this.cloud = GuaImage.new(game, 'cloud')
 
-        this.player = GuaImage.new(game, 'player')
+        this.player = Player.new(game)
         this.player.x = 100
         this.player.y = 150
         this.elements = []
@@ -28,10 +67,23 @@ class Scene extends GuaScene{
 
     }
 
-    // draw() {
-    //      this.game.drawImage(this.bg)
-    //      this.game.drawImage(this.player)
-    // }
+    setupInput() {
+        var g = this.game
+        var s = this
+        g.registerAction('a', function(){
+            s.player.moveLeft()
+        })
+        g.registerAction('d', function(){
+            s.player.moveRight()
+        })
+        g.registerAction('w', function(){
+            s.player.moveUp()
+        })
+        g.registerAction('s', function(){
+            s.player.moveDown()
+        })
+    }
+
     update() {
         this.cloud.y += 1
     }
