@@ -66,7 +66,7 @@ class Player extends GuaImage {
 
 const randomBetween = function (start, end) {
     var n = Math.random() * (end - start + 1)
-    return Math.floor(n)
+    return Math.floor(n + start)
 }
 
 class Enemy extends GuaImage {
@@ -75,7 +75,7 @@ class Enemy extends GuaImage {
         var name = 'enemy' + type
         super(game, name)
         this.setup()
-
+        this.alive = true
 
     }
     setup() {
@@ -89,6 +89,13 @@ class Enemy extends GuaImage {
         if (this.y > 600) {
             this.setup()
         }
+    }
+    kill() {
+        this.alive = false
+    }
+    //TODO 这个是需要渲染之后来判定的事件
+    collide(b) {
+        this.alive && (rectIntersects(this, b) || rectIntersects(b, this))
     }
 
 }
@@ -140,7 +147,9 @@ class Scene extends GuaScene{
         this.addElement(this.cloud)
         //add enemys
         this.addEnemies()
-
+        //
+        var ps = GuaParticleSystem.new(game)
+        this.addElement(ps)
     }
     addEnemies() {
         var es = []
@@ -174,7 +183,28 @@ class Scene extends GuaScene{
     update() {
         super.update()
         this.cloud.y += 1
+        if (window.paused) {
+            return
+        }
+        //TODO, 在这里要处理一下子弹跟飞机的碰撞检测
+        // 判断相撞
+        // if (this.bullet.collide(this.enemies)) {
+        //     // 这里应该调用一个 ball.反弹() 来实现
+        //     this.particles.发射()
+        // }
+        // 判断 ball 和 blocks 相撞
+        for (var i = 0; i < this.enemies.length; i++) {
+            var e = this.enemies[i]
+            if (e.collide(this.bullet)) {
+                // log('block 相撞')
+                e.kill()
+                this.particles.发射()
+                // 更新分数
+                score += 100
+            }
+        }
     }
+
 
 }
 

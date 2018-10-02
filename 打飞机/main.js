@@ -45,10 +45,12 @@ const __main = function() {
         enemy2: 'img/enemy.png',
         enemy3: 'img/enemy.png',
         enemy4: 'img/enemy.png',
+        fire: 'img/fire.png',
     }
     // var scene = Scene(game)
     var game = GuaGame.instance(30, images, function (g) {
         var s = Scene.new(g)
+        // var s = SceneTitle.new(g)
         g.runWithScene(s)
     })
 
