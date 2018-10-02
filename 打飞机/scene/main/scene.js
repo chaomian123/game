@@ -1,6 +1,13 @@
 const config = {
     player_speed: 10,
+    cloud_speed:1,
+    enemy_speed:5,
+    bullet_speed:5,
+    fire_cooldown:10,
+    cloud_speed:5,
 }
+//这是一个单例
+
 class Bullet extends GuaImage {
     constructor(game) {
         super(game, 'bullet')
@@ -10,6 +17,7 @@ class Bullet extends GuaImage {
         this.speed = 2
     }
     update() {
+        this.speed = config.bullet_speed
         this.y -= this.speed
     }
 }
@@ -32,7 +40,7 @@ class Player extends GuaImage {
 
     fire() {
         if (this.cooldown === 0) {
-            this.cooldown = 9
+            this.cooldown = config.fire_cooldown
             var x = this.x + this.w / 2
             var y = this.y
             var b = Bullet.new(this.game)
@@ -99,10 +107,14 @@ class Cloud extends GuaImage {
 
     }
     update() {
+        this.speed = config.cloud_speed
         this.y += this.speed
         if (this.y > 600) {
             this.setup()
         }
+    }
+    debug() {
+
     }
 
 }

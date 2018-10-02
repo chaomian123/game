@@ -36,10 +36,40 @@
         <div>
             <label for="">
                 <input type="range" class="gua-auto-slider"
-                  value=""
-                  data-value="config.player_speed"
+                       value=""
+                       data-value="config.player_speed"
                 >
                 玩家速度: <span Class="gua-label"></span>
+            </label>
+        </div>
+        <div>
+            <label for="">
+                <input type="range" class="gua-auto-slider"
+                       value=""
+                       max="10"
+                       data-value="config.fire_cooldown"
+                >
+                子弹冷却时间: <span Class="gua-label"></span>
+            </label>
+        </div>
+        <div>
+            <label for="">
+                <input type="range" class="gua-auto-slider"
+                       value=""
+                       min="-10"
+                       max="10"
+                       data-value="config.cloud_speed"
+                >
+                cloud speed: <span Class="gua-label"></span>
+            </label>
+        </div>
+        <div>
+            <label for="">
+                <input type="range" class="gua-auto-slider"
+                       value=""
+                       data-value="config.bullet_speed"
+                >
+                子弹速度: <span Class="gua-label"></span>
             </label>
         </div>
         <script src=main.js></script>
