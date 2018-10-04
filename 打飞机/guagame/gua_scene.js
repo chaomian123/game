@@ -24,6 +24,9 @@ class GuaScene {
         }
     }
     update() {
+        if (window.paused) {
+            return
+        }
         if (this.debugModeEnable) {
             for (var i = 0; i < this.elements.length; i++) {
                 var e = this.elements[i]

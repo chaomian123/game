@@ -41,7 +41,7 @@ class Bullet extends GuaImage {
                 this.scene.addElement(ps)
                 e.kill()
                 b.kill()
-                this.scene.score++
+                p.getScore()
             }
         }
     }
@@ -60,6 +60,7 @@ class Player extends GuaImage {
         this.setup()
     }
     setup() {
+        this.score = 0
         this.alive = true
         this.life = config.player_life
         this.speed = 10
@@ -70,6 +71,10 @@ class Player extends GuaImage {
         if (this.cooldown > 0) {
             this.cooldown --
         }
+        if (!this.alive) {
+            this.score = 0
+        }
+        this.crushed()
     }
 
     fire() {
@@ -83,8 +88,26 @@ class Player extends GuaImage {
             this.scene.addElement(b)
 
         }
-
     }
+    crushed() {
+        var enemy = this.scene.enemies
+        for (var i = 0; i < enemy.length; i++) {
+            var e = enemy[i]
+            var p = this
+            if (p.alive && e.alive && (rectIntersects(p, e) || rectIntersects(e, p))) {
+                var ps = GuaParticleSystem.new(this.game)
+                ps.x = p.x
+                ps.y = p.y
+                this.scene.addElement(ps)
+                e.kill()
+                p.kill()
+            }
+        }
+    }
+    getScore() {
+        this.score += 10
+    }
+
     moveLeft() {
         this.x -= this.speed
     }
@@ -149,7 +172,6 @@ class Enemy extends GuaImage {
             b.y = y
             log(b,'b')
             this.scene.addElement(b)
-            this.scene.scor
         // }
     }
 
@@ -187,7 +209,6 @@ class Scene extends GuaScene{
 
     setup() {
         var game = this.game
-        this.score = 0
 
         this.numberOfEnemies = 10
         this.bg = GuaImage.new(game, 'sky')
@@ -234,24 +255,16 @@ class Scene extends GuaScene{
             s.player.fire()
         })
     }
-    // updateScore() {
-    //     var s = GuaLabel.new(this.game)
-    //     s.text = this.score
-    //     s.x = 50
-    //     s.y = 50
-    //     this.addElement(s)
-    // }
+
 
     update() {
         super.update()
-
         this.cloud.y += 1
-
     }
 
     draw() {
         super.draw()
-        this.game.context.fillText('分数: '+ this.score, 50, 50)
+        this.game.context.fillText('分数: '+ this.player.score, 50, 50)
     }
 }
 

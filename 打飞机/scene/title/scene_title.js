@@ -1,17 +1,20 @@
 class SceneTitle extends GuaScene {
     constructor(game) {
         super(game)
-        var label = GuaLabel.new(game, 'hello')
-        this.addElement(label)
-
-        var w = GuaAnimation.new(game)
-        w.x = 100
-        w.y = 200
-        this.addElement(w)
+        game.registerAction('k', function () {
+            var s = Scene.new(game)
+            game.replaceScene(s)
+        })
     }
-    static new(game) {
+    static  new(game) {
         var i = new this(game)
         //这里的this是scenetitle
         return i
+    }
+    draw() {
+        this.game.context.fillText('按 k 开始游戏: ', 100, 190)
+    }
+    update() {
+
     }
 }
