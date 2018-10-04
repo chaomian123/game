@@ -28,13 +28,13 @@ class GuaParticleSystem {
     constructor(game) {
         this.game = game
         this.setup()
+        this.alive = true
     }
     static new(game, text) {
         return new this(game, text)
     }
     setup() {
-        log('xxx,yyy')
-        this.duration = 20
+        this.duration = 15
         this.x = 0
         this.y = 0
         this.numberOfParticles = 100
@@ -63,7 +63,6 @@ class GuaParticleSystem {
     draw() {
         if (this.duration < 0) {
             //TODO, 这是一个临时方案
-            log('没气了')
             return
         }
         for (var p of this.particles) {

@@ -5,6 +5,7 @@ const config = {
     bullet_speed:5,
     fire_cooldown:10,
     cloud_speed:5,
+    player_life: 10,
 }
 //这是一个单例
 
@@ -13,14 +14,18 @@ class Bullet extends GuaImage {
         super(game, 'bullet')
         this.setup()
     }
+
     setup() {
-        this.life = 1
+        this.alive = true
         this.speed = 2
+
     }
+
     update() {
         this.speed = config.bullet_speed
         this.y -= this.speed
         this.killEnemies()
+
     }
 
     killEnemies() {
@@ -29,19 +34,24 @@ class Bullet extends GuaImage {
         for (var i = 0; i < enemy.length; i++) {
             var e = enemy[i]
             var b = this
-            if (e.life && b.life && (rectIntersects(e, b) || rectIntersects(b, e))) {
+            if (e.alive && b.alive && (rectIntersects(e, b) || rectIntersects(b, e))) {
                 var ps = GuaParticleSystem.new(this.game)
                 ps.x = e.x
                 ps.y = e.y
                 this.scene.addElement(ps)
                 e.kill()
                 b.kill()
+                this.scene.score++
             }
         }
     }
+
     kill() {
+        this.alive = false
         this.life = 0
     }
+
+
 }
 
 class Player extends GuaImage {
@@ -50,7 +60,8 @@ class Player extends GuaImage {
         this.setup()
     }
     setup() {
-        this.life = 1
+        this.alive = true
+        this.life = config.player_life
         this.speed = 10
         this.cooldown = 0
     }
@@ -70,6 +81,7 @@ class Player extends GuaImage {
             b.x = x
             b.y = y
             this.scene.addElement(b)
+
         }
 
     }
@@ -86,7 +98,8 @@ class Player extends GuaImage {
         this.y += this.speed
     }
     kill() {
-        this.life = 0
+        this.alive = false
+        this.life --
     }
 }
 
@@ -105,7 +118,8 @@ class Enemy extends GuaImage {
 
     }
     setup() {
-        this.life = 1
+        this.cooldown = 3
+        this.alive = true
         this.speed = randomBetween(2, 5)
         this.x = randomBetween(0, 350)
         this.y = -randomBetween(0, 200)
@@ -116,20 +130,34 @@ class Enemy extends GuaImage {
         if (this.y > 600) {
             this.setup()
         }
+        if (this.cooldown > 0) {
+            this.cooldown --
+        }
     }
     kill() {
-        this.life = 0
+        this.alive = false
+        // this.life = 0
 
+    }
+    fire() {
+        // if (this.cooldown == 0) {
+        //     this.cooldown = 3
+            var x = this.x + this.w / 2
+            var y = this.y
+            var b = Bullet.new(this.game)
+            b.x = x
+            b.y = y
+            log(b,'b')
+            this.scene.addElement(b)
+            this.scene.scor
+        // }
     }
 
 }
 class Cloud extends GuaImage {
     constructor(game) {
-
         super(game, 'cloud')
         this.setup()
-
-
     }
     setup() {
         this.speed = 1
@@ -159,6 +187,8 @@ class Scene extends GuaScene{
 
     setup() {
         var game = this.game
+        this.score = 0
+
         this.numberOfEnemies = 10
         this.bg = GuaImage.new(game, 'sky')
         this.cloud = Cloud.new(game)
@@ -166,15 +196,14 @@ class Scene extends GuaScene{
         this.player = Player.new(game)
         this.player.x = 100
         this.player.y = 150
+
         this.elements = []
         this.addElement(this.bg)
         this.addElement(this.player)
         this.addElement(this.cloud)
         //add enemys
         this.addEnemies()
-        //
-        //
-        // this.boom(100, 200)
+
 
     }
     addEnemies() {
@@ -205,7 +234,13 @@ class Scene extends GuaScene{
             s.player.fire()
         })
     }
-
+    // updateScore() {
+    //     var s = GuaLabel.new(this.game)
+    //     s.text = this.score
+    //     s.x = 50
+    //     s.y = 50
+    //     this.addElement(s)
+    // }
 
     update() {
         super.update()
@@ -214,7 +249,10 @@ class Scene extends GuaScene{
 
     }
 
-
+    draw() {
+        super.draw()
+        this.game.context.fillText('分数: '+ this.score, 50, 50)
+    }
 }
 
 // var Scene = function (game) {
