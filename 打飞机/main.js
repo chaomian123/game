@@ -40,11 +40,11 @@ const __main = function() {
         cloud: 'img/cloud.png',
         player: 'img/plane.png',
         sky: 'img/sky.png',
-        enemy0: 'img/enemy.png',
-        enemy1: 'img/enemy.png',
-        enemy2: 'img/enemy.png',
-        enemy3: 'img/enemy.png',
-        enemy4: 'img/enemy.png',
+        enemy0: 'img/enemy0.png',
+        enemy1: 'img/enemy1.png',
+        enemy2: 'img/enemy2.png',
+        enemy3: 'img/enemy3.png',
+        enemy4: 'img/enemy4.png',
         fire: 'img/fire.png',
     }
     // var scene = Scene(game)

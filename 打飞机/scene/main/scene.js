@@ -1,18 +1,22 @@
 const config = {
     player_speed: 10,
     cloud_speed:1,
-    enemy_speed:5,
+    enemy_speed:3,
     bullet_speed:5,
+    enemy_bullet_speed:3,
     fire_cooldown:10,
+    enemy_fire_cooldown:80,
+    enemy_bullet_speed: 8,
     cloud_speed:5,
     player_life: 10,
 }
 //这是一个单例
 
 class Bullet extends GuaImage {
-    constructor(game) {
+    constructor(game, target) {
         super(game, 'bullet')
         this.setup()
+        this.target = target
     }
 
     setup() {
@@ -22,8 +26,16 @@ class Bullet extends GuaImage {
     }
 
     update() {
-        this.speed = config.bullet_speed
-        this.y -= this.speed
+        if (this.target === 'enemy') {
+            this.speed = config.bullet_speed
+            this.y -= this.speed
+        }else if(this.target === 'player') {
+            this.speed = config.enemy_bullet_speed
+            this.y += randomBetween(6, 7)
+        }
+        if (this.y >= 580) {
+            this.kill()
+        }
         this.killEnemies()
 
     }
@@ -34,14 +46,22 @@ class Bullet extends GuaImage {
         for (var i = 0; i < enemy.length; i++) {
             var e = enemy[i]
             var b = this
-            if (e.alive && b.alive && (rectIntersects(e, b) || rectIntersects(b, e))) {
-                var ps = GuaParticleSystem.new(this.game)
-                ps.x = e.x
-                ps.y = e.y
-                this.scene.addElement(ps)
+            if (e.alive && b.target ==='enemy' && (rectIntersects(e, b) || rectIntersects(b, e))) {
+                var es = GuaParticleSystem.new(this.game)
+                es.x = e.x
+                es.y = e.y
+                this.scene.addElement(es)
                 e.kill()
                 b.kill()
                 p.getScore()
+            } else if (p.alive && b.target === 'player' && (rectIntersects(p, b) || rectIntersects(b, p))) {
+                var ps = GuaParticleSystem.new(this.game)
+                ps.x = p.x
+                ps.y = p.y
+
+                this.scene.addElement(ps)
+                b.kill()
+                p.kill()
             }
         }
     }
@@ -72,7 +92,8 @@ class Player extends GuaImage {
             this.cooldown --
         }
         if (!this.alive) {
-            this.score = 0
+            var s = SceneEnd.new(this.game)
+            this.game.replaceScene(s)
         }
         this.crushed()
     }
@@ -81,8 +102,8 @@ class Player extends GuaImage {
         if (this.cooldown === 0) {
             this.cooldown = config.fire_cooldown
             var x = this.x + this.w / 2
-            var y = this.y
-            var b = Bullet.new(this.game)
+            var y = this.y + this.h / 2
+            var b = Bullet.new(this.game, 'enemy')
             b.x = x
             b.y = y
             this.scene.addElement(b)
@@ -99,6 +120,7 @@ class Player extends GuaImage {
                 ps.x = p.x
                 ps.y = p.y
                 this.scene.addElement(ps)
+                log(this.scene)
                 e.kill()
                 p.kill()
             }
@@ -141,11 +163,13 @@ class Enemy extends GuaImage {
 
     }
     setup() {
-        this.cooldown = 3
+        this.cooldown = config.enemy_fire_cooldown
         this.alive = true
         this.speed = randomBetween(2, 5)
         this.x = randomBetween(0, 350)
         this.y = -randomBetween(0, 200)
+
+
 
     }
     update() {
@@ -153,9 +177,8 @@ class Enemy extends GuaImage {
         if (this.y > 600) {
             this.setup()
         }
-        if (this.cooldown > 0) {
-            this.cooldown --
-        }
+
+        this.fire()
     }
     kill() {
         this.alive = false
@@ -163,16 +186,16 @@ class Enemy extends GuaImage {
 
     }
     fire() {
-        // if (this.cooldown == 0) {
-        //     this.cooldown = 3
+        this.cooldown--
+        if (this.cooldown === 0) {
+            this.cooldown = config.enemy_fire_cooldown
             var x = this.x + this.w / 2
             var y = this.y
-            var b = Bullet.new(this.game)
+            var b = Bullet.new(this.game, 'player')
             b.x = x
             b.y = y
-            log(b,'b')
             this.scene.addElement(b)
-        // }
+        }
     }
 
 }
