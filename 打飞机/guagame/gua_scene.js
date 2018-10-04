@@ -13,6 +13,7 @@ class GuaScene {
         img.scene = this
         this.elements.push(img)
     }
+
     draw() {
         for (var e of this.elements) {
             // this.game.drawImage(e)

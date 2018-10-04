@@ -62,7 +62,10 @@ class GuaParticleSystem {
     }
     draw() {
         if (this.duration < 0) {
-            //TODO, 这是一个临时方案
+            var pack= this.game.scene.elements
+            var index = pack.indexOf(this)
+            pack.splice(index, 1)
+            log(this.game.scene.elements, '看看里面都有啥')
             return
         }
         for (var p of this.particles) {
