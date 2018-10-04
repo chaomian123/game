@@ -18,6 +18,8 @@ class GuaImage {
     update() {
 
     }
+
+
 }
 
 //这里不应该继承GuaImage 但是先这样做了

@@ -16,7 +16,10 @@ class GuaScene {
     draw() {
         for (var e of this.elements) {
             // this.game.drawImage(e)
-            e.draw()
+            if (e.life !== 0) {
+                e.draw()
+            }
+
         }
     }
     update() {

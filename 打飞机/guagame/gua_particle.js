@@ -2,14 +2,9 @@ class GuaParticle extends GuaImage {
     constructor(game) {
         super(game, 'fire')
         this.setup()
-        this.alive = false
     }
     setup() {
-        if (this.发射 === false) {
-            this.life = 0
-        }else {
-            this.life = 10
-        }
+        this.life = 10
     }
     //设置烟花的位置
     init(x, y, vx, vy) {
@@ -38,9 +33,10 @@ class GuaParticleSystem {
         return new this(game, text)
     }
     setup() {
-        this.duration = 50
-        this.x = 150
-        this.y = 200
+        log('xxx,yyy')
+        this.duration = 20
+        this.x = 0
+        this.y = 0
         this.numberOfParticles = 100
         this.particles = []
     }
@@ -67,6 +63,7 @@ class GuaParticleSystem {
     draw() {
         if (this.duration < 0) {
             //TODO, 这是一个临时方案
+            log('没气了')
             return
         }
         for (var p of this.particles) {
@@ -74,3 +71,4 @@ class GuaParticleSystem {
         }
     }
 }
+
