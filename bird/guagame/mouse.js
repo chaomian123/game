@@ -38,7 +38,10 @@ const pos = (elem) => {
     return left
 }
 const setPos = (elem, left) => {
-
+    // if (left)
+    // if (left > leftLimited) {
+    //     left = leftLimited
+    // }
     elem.style.left = left + 'px'
 
 }

@@ -31,8 +31,7 @@ class Bullet extends GuaImage {
             this.y -= this.speed
         }else if(this.target === 'player') {
             this.speed = config.enemy_bullet_speed
-            // this.y += randomBetween(6, 7)
-            this.y += this.speed
+            this.y += randomBetween(6, 7)
         }
         if (this.y >= 580) {
             this.kill()
@@ -92,14 +91,11 @@ class Player extends GuaImage {
         if (this.cooldown > 0) {
             this.cooldown --
         }
-        this.crushed()
-        //TODO 想延迟2s切场景的
         if (!this.alive) {
-                var s = SceneEnd.new(this.game)
-                this.game.replaceScene(s)
-
+            var s = SceneEnd.new(this.game)
+            this.game.replaceScene(s)
         }
-
+        this.crushed()
     }
 
     fire() {
@@ -191,7 +187,7 @@ class Enemy extends GuaImage {
     }
     fire() {
         this.cooldown--
-        if (this.cooldown === 0 && this.alive) {
+        if (this.cooldown === 0) {
             this.cooldown = config.enemy_fire_cooldown
             var x = this.x + this.w / 2
             var y = this.y
@@ -291,8 +287,6 @@ class Scene extends GuaScene{
 
     draw() {
         super.draw()
-        this.game.context.fillStyle = "white";
-        this.game.context.font = "bold 14px Arial";
         this.game.context.fillText('分数: '+ this.player.score, 50, 50)
     }
 }
