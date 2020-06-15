@@ -1,0 +1,67 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>mario</title>
+</head>
+<body>
+    <canvas id="id-canvas" width="300" height="300"></canvas>
+    <script>
+       /*
+        8*8像素每个方块
+        2bits每个像素
+        16bytes一个土块
+
+        每页8 * 8个图块 就是宽高各64像素
+
+       */
+        let e = sel => document.querySelector(sel)
+        let log = console.log.bind(console)
+        let ajax = request => {
+            let r = new XMLHttpRequest()
+            r.open('GET', request.url, true)
+            r.responseType = 'arraybuffer'
+            r.onreadystatechange = event => {
+                if(r.readyState === 4) {
+                    request.callback(r.response)
+                }
+            }
+            r.send()
+        }
+
+        const drawBlock = (context, data, x, y, pixelWidth) => {
+            let w = pixelWidth
+            let h = pixelWidth
+
+        }
+
+        const drawNes = bytes => {
+            let canvas = e('#id-canvas')
+            let context = canvas.getContext('2d')
+            let blockSize = 8
+            let pixelSize = 8
+            let pixelWidth = 10
+            let numberOfBytesPerBlock = 16
+            for (let i = 0; i < blockSize; i++) {
+                for(let j = 0; j < blockSize; j++) {
+                    let x = j * pixelSize * pixelWidth
+                    let y = i * pixelSize * pixelWidth
+                    let index = (i * 8 + j) * numberOfBytesPerBlock
+                    // 计算出字节的偏移 从而绘制出block
+                    drawBlock(context. bytes.slice(index), x, y, pixelWidth)
+                }
+            }
+        }
+        const __main = () => {
+            let request = {
+                url: 'mario.nes',
+                callback(r) {
+                    let bytes = new Uint8Array(r)
+                    log('byte', bytes)
+                }
+            }
+            ajax(request)
+        }
+        __main()
+    </script>
+</body>
+</html>
